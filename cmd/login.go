@@ -20,15 +20,18 @@ and usage of using your command.`,
 		}
 
 		// get username and password
-		username, password, err := ui.Login()
-		if err != nil {
+		username, password, uierr := ui.Login()
+		if uierr != nil {
 			return
 		}
 
-		// // login
-		api.Login(username, password)
-
-		// write access token into ~/.ymanrc
+		// login
+		user, apierr := api.Login(username, password)
+		if apierr != nil {
+			ui.Error(apierr)
+			return
+		}
+		ui.Text("logined as " + user.Username)
 	},
 }
 
