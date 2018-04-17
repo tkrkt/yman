@@ -6,17 +6,32 @@ import (
 	"github.com/tkrkt/yman/ui"
 )
 
+// loginCmd represents the login command
 var loginCmd = &cobra.Command{
 	Use:   "login",
-	Short: "A brief description of your command",
-	Long: `A longer description that spans multiple lines and likely contains examples
-and usage of using your command.`,
+	Short: "Login to yman",
+	Long:  `Login to yman.`,
 	Run: func(cmd *cobra.Command, args []string) {
 		// check if i am already logined
-		currentUser := api.CurrentUser()
-		if currentUser != nil {
-			ui.Text("already logined as " + currentUser.Username)
-			return
+		account := api.CurrentAccount()
+		if account != nil {
+			ui.Text("Already logined as " + account.Username)
+
+			// confirm to logout
+			ans, err := ui.Confirm("Login as a different user?")
+			if err != nil {
+				ui.Error(err)
+				return
+			}
+			if !ans {
+				return
+			}
+
+			// logout and continue login process
+			if err := api.Logout(); err != nil {
+				ui.Error(err)
+				return
+			}
 		}
 
 		// get username and password
@@ -26,12 +41,12 @@ and usage of using your command.`,
 		}
 
 		// login
-		user, apierr := api.Login(username, password)
+		account, apierr := api.Login(username, password)
 		if apierr != nil {
 			ui.Error(apierr)
 			return
 		}
-		ui.Text("logined as " + user.Username)
+		ui.Text("Logined as " + account.Username)
 	},
 }
 

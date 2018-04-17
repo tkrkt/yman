@@ -13,33 +13,36 @@ import (
 	"github.com/tkrkt/yman/model"
 )
 
-const templateText = `[[auth]]
-username = "{{ .username }}"
-token = "{{ .token }}"`
-
-func Login(username string, password string) (*model.User, error) {
-	current := CurrentUser()
-	if current != nil {
-		return nil, errors.New("you are already logined as " + current.Username)
-	}
-
+func Login(username string, password string) (*model.Account, error) {
 	// access to server
 
+	account := &model.Account{
+		Username: username,
+		Token:    "token",
+	}
+
 	// write to .ymanrc
-	if err := write(username, "token"); err != nil {
+	if err := saveAccount(account); err != nil {
 		return nil, err
 	}
 
-	return &model.User{Username: username}, nil
+	return account, nil
 }
 
-func CurrentUser() *model.User {
-	username, _, err := read()
+func Logout() error {
+	// delete .ymanrc
+	if err := deleteAccount(); err != nil {
+		return err
+	}
+	return nil
+}
+
+func CurrentAccount() *model.Account {
+	account, err := loadAccount()
 	if err != nil {
 		return nil
 	}
-
-	return &model.User{Username: username}
+	return account
 }
 
 func rcPath() (string, error) {
@@ -51,9 +54,9 @@ func rcPath() (string, error) {
 	return filepath.Join(home, ".ymanrc"), nil
 }
 
-func write(username string, token string) error {
-	const t = `[[account]]
-username = "{{.Username}}"
+func saveAccount(account *model.Account) error {
+	// generate toml string
+	const t = `username = "{{.Username}}"
 token = "{{.Token}}"
 `
 	tmpl, parseErr := template.New("test").Parse(t)
@@ -62,15 +65,11 @@ token = "{{.Token}}"
 	}
 	var doc bytes.Buffer
 
-	type rc struct {
-		Username string
-		Token    string
-	}
-
-	if err := tmpl.Execute(&doc, rc{Username: username, Token: token}); err != nil {
+	if err := tmpl.Execute(&doc, account); err != nil {
 		return err
 	}
 
+	// save to file
 	p, pathErr := rcPath()
 	if pathErr != nil {
 		return pathErr
@@ -89,23 +88,43 @@ token = "{{.Token}}"
 	return nil
 }
 
-func read() (username string, token string, err error) {
+func loadAccount() (*model.Account, error) {
 	p, pathErr := rcPath()
 	if pathErr != nil {
-		return "", "", pathErr
+		return nil, pathErr
 	}
 
 	data, err := ioutil.ReadFile(p)
 	if err != nil {
-		return "", "", nil
+		return nil, err
 	}
 	conf, err := toml.Load(string(data))
 	if err != nil {
-		return "", "", nil
+		return nil, err
 	}
 
-	username = conf.Get("account.username").(string)
-	token = conf.Get("account.token").(string)
+	username := conf.Get("username")
+	token := conf.Get("token")
 
-	return username, token, nil
+	if username == nil || token == nil {
+		return nil, errors.New("invalid file format")
+	}
+
+	return &model.Account{
+		Username: username.(string),
+		Token:    token.(string),
+	}, nil
+}
+
+func deleteAccount() error {
+	p, pathErr := rcPath()
+	if pathErr != nil {
+		return pathErr
+	}
+
+	if err := os.Remove(p); err != nil {
+		return err
+	}
+
+	return nil
 }
