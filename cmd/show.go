@@ -23,16 +23,16 @@ var showCmd = &cobra.Command{
 		}
 
 		// create query
-		var c *string
+		var c string
 		if len(args) != 0 {
-			c = &args[0]
+			c = args[0]
 		}
 		author := cmd.Flag("user").Value.String()
 		tag := cmd.Flag("tag").Value.String()
 		query := &model.Query{
 			Command: c,
-			Author:  &author,
-			Tag:     &tag,
+			Author:  author,
+			Tag:     tag,
 		}
 
 		// search manuals
@@ -42,10 +42,7 @@ var showCmd = &cobra.Command{
 			return
 		}
 
-		// show manuals
-		for _, m := range manuals {
-			ui.ShowManual(m)
-		}
+		ui.ShowManuals(manuals)
 	},
 }
 
