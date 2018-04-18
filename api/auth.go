@@ -13,6 +13,7 @@ import (
 	"github.com/tkrkt/yman/model"
 )
 
+// Login to yman and create .ymanrc
 func Login(username string, password string) (*model.Account, error) {
 	// access to server
 
@@ -29,6 +30,7 @@ func Login(username string, password string) (*model.Account, error) {
 	return account, nil
 }
 
+// Logout from yman by deleting .ymanrc
 func Logout() error {
 	// delete .ymanrc
 	if err := deleteAccount(); err != nil {
@@ -37,6 +39,7 @@ func Logout() error {
 	return nil
 }
 
+// CurrentAccount returns account if logined
 func CurrentAccount() (*model.Account, error) {
 	return loadAccount()
 }
@@ -85,9 +88,9 @@ token = "{{.Token}}"
 }
 
 func loadAccount() (*model.Account, error) {
-	p, pathErr := rcPath()
-	if pathErr != nil {
-		return nil, pathErr
+	p, err := rcPath()
+	if err != nil {
+		return nil, err
 	}
 
 	data, err := ioutil.ReadFile(p)

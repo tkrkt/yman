@@ -2,6 +2,7 @@ package api
 
 import (
 	"bytes"
+	"errors"
 	"fmt"
 	"math/rand"
 	"os"
@@ -14,7 +15,14 @@ import (
 	"github.com/tkrkt/yman/model"
 )
 
+// Add a manual by post to server or save to file
 func Add(account *model.Account, manual *model.Manual) error {
+	if account == nil {
+		return errors.New("not loggined")
+	}
+	if manual == nil {
+		return errors.New("invalid manual")
+	}
 	return saveToLocalFile(account, manual)
 }
 

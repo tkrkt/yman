@@ -11,6 +11,7 @@ var loginCmd = &cobra.Command{
 	Use:   "login",
 	Short: "Login to yman",
 	Long:  `Login to yman.`,
+
 	Run: func(cmd *cobra.Command, args []string) {
 		// check if i am already logined
 		account, err := api.CurrentAccount()
@@ -35,15 +36,15 @@ var loginCmd = &cobra.Command{
 		}
 
 		// get username and password
-		username, password, uierr := ui.Login()
-		if uierr != nil {
+		username, password, err := ui.Login()
+		if err != nil {
 			return
 		}
 
 		// login
-		account, apierr := api.Login(username, password)
-		if apierr != nil {
-			ui.Error(apierr)
+		account, err = api.Login(username, password)
+		if err != nil {
+			ui.Error(err)
 			return
 		}
 		ui.Text("Logined as " + account.Username)
