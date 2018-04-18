@@ -10,8 +10,12 @@ func Text(text interface{}) {
 	fmt.Println(text)
 }
 
+func Warn(text interface{}) {
+	fmt.Println("WARN:", text)
+}
+
 func Error(text interface{}) {
-	fmt.Println(text)
+	fmt.Println("ERROR:", text)
 }
 
 func Confirm(msg string) (answer bool, err error) {
