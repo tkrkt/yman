@@ -13,8 +13,8 @@ var loginCmd = &cobra.Command{
 	Long:  `Login to yman.`,
 	Run: func(cmd *cobra.Command, args []string) {
 		// check if i am already logined
-		account := api.CurrentAccount()
-		if account != nil {
+		account, err := api.CurrentAccount()
+		if err == nil {
 			ui.Text("Already logined as " + account.Username)
 
 			// confirm to logout

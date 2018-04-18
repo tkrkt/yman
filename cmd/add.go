@@ -20,8 +20,8 @@ If you want to show your manual of "add" command, use ` + "`yman show add`" + ` 
 	Args: cobra.ExactArgs(1),
 	Run: func(cmd *cobra.Command, args []string) {
 		// check login status
-		account := api.CurrentAccount()
-		if account == nil {
+		account, err := api.CurrentAccount()
+		if err != nil {
 			ui.Error("You are not logged in. Please login with `yman login` in advance.")
 			return
 		}

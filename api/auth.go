@@ -37,12 +37,8 @@ func Logout() error {
 	return nil
 }
 
-func CurrentAccount() *model.Account {
-	account, err := loadAccount()
-	if err != nil {
-		return nil
-	}
-	return account
+func CurrentAccount() (*model.Account, error) {
+	return loadAccount()
 }
 
 func rcPath() (string, error) {
