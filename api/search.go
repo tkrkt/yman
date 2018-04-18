@@ -6,6 +6,7 @@ import (
 	"io/ioutil"
 	"os"
 	"path/filepath"
+	"strings"
 
 	"github.com/BurntSushi/toml"
 	"github.com/mitchellh/go-homedir"
@@ -63,5 +64,34 @@ func loadFromLocalFile(account *model.Account, query *model.Query) ([]*model.Man
 }
 
 func match(m *model.Manual, q *model.Query) bool {
-	return true
+	// check command
+	if q.Command != "" {
+		command := strings.Split(q.Command, "/")
+		if len(command) > 1 {
+			if m.FullCommand != q.Command {
+				return false
+			}
+		} else if m.Command != q.Command {
+			return false
+		}
+	}
+
+	// check author
+	if q.Author != "" {
+		if m.Author != q.Author {
+			return false
+		}
+	}
+
+	// finally check tags
+	if q.Tag == "" {
+		// without tag filter
+		return true
+	}
+	for _, t := range m.Tags {
+		if t == q.Tag {
+			return true
+		}
+	}
+	return false
 }
