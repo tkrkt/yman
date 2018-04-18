@@ -1,7 +1,6 @@
 package cmd
 
 import (
-	"fmt"
 	"strings"
 
 	"github.com/spf13/cobra"
@@ -53,7 +52,7 @@ If you want to show your manual of "add" command, use ` + "`yman show add`" + ` 
 			Tags:        strings.Split(cmd.Flag("tag").Value.String(), ","),
 		}
 
-		fmt.Println(manual)
+		api.Add(account, manual)
 	},
 }
 
