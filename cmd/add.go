@@ -49,12 +49,12 @@ If you want to show your manual of "add" command, use ` + "`yman show add`" + ` 
 		}
 
 		manual := &model.Manual{
-			Command:     strings.SplitN(args[0], "/", 2)[0],
-			FullCommand: args[0],
-			Author:      account.Username,
-			Title:       strings.SplitN(message, "\n", 2)[0],
-			Message:     message,
-			Tags:        tags,
+			Command: strings.SplitN(args[0], "/", 2)[0],
+			Full:    args[0],
+			Author:  account.Username,
+			Title:   strings.SplitN(message, "\n", 2)[0],
+			Message: message,
+			Tags:    tags,
 		}
 
 		api.Add(account, manual)

@@ -68,7 +68,7 @@ func match(m *model.Manual, q *model.Query) bool {
 	if q.Command != "" {
 		command := strings.Split(q.Command, "/")
 		if len(command) > 1 {
-			if m.FullCommand != q.Command {
+			if m.Full != q.Command {
 				return false
 			}
 		} else if m.Command != q.Command {
@@ -84,13 +84,14 @@ func match(m *model.Manual, q *model.Query) bool {
 	}
 
 	// finally check tags
-	if q.Tag == "" {
-		// without tag filter
+	if len(q.Tags) == 0 {
 		return true
 	}
-	for _, t := range m.Tags {
-		if t == q.Tag {
-			return true
+	for _, qt := range q.Tags {
+		for _, mt := range m.Tags {
+			if mt == qt {
+				return true
+			}
 		}
 	}
 	return false

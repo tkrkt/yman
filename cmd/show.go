@@ -28,11 +28,15 @@ var showCmd = &cobra.Command{
 			c = args[0]
 		}
 		author := cmd.Flag("user").Value.String()
-		tag := cmd.Flag("tag").Value.String()
+		var tags []string
+		if tagString := cmd.Flag("tag").Value.String(); tagString != "" {
+			tags = strings.Split(cmd.Flag("tag").Value.String(), ",")
+		}
 		query := &model.Query{
 			Command: c,
 			Author:  author,
-			Tag:     tag,
+			Tags:    tags,
+		}
 		}
 
 		// search manuals
