@@ -4,6 +4,7 @@ import (
 	"fmt"
 
 	"github.com/AlecAivazis/survey"
+	"github.com/fatih/color"
 )
 
 func Text(text interface{}) {
@@ -11,7 +12,7 @@ func Text(text interface{}) {
 }
 
 func Warn(text interface{}) {
-	fmt.Println("WARN:", text)
+	color.Yellow("WARN: " + fmt.Sprint(text))
 }
 
 func Error(text interface{}) {
