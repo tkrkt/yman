@@ -15,7 +15,7 @@ import (
 
 // Search manuals by fetching from server or search local files
 func Search(account *model.Account, query *model.Query) ([]*model.Manual, error) {
-	if query == nil || query.IsEmpty() {
+	if query == nil {
 		return nil, errors.New("invalid query")
 	}
 	return loadFromLocalFile(account, query)
@@ -64,6 +64,10 @@ func loadFromLocalFile(account *model.Account, query *model.Query) ([]*model.Man
 }
 
 func match(m *model.Manual, q *model.Query) bool {
+	if q.IsEmpty() {
+		return true
+	}
+
 	// check command
 	if q.Command != "" {
 		command := strings.Split(q.Command, "/")

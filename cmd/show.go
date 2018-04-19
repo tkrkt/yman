@@ -1,6 +1,8 @@
 package cmd
 
 import (
+	"strings"
+
 	"github.com/spf13/cobra"
 	"github.com/tkrkt/yman/api"
 	"github.com/tkrkt/yman/model"
@@ -11,8 +13,8 @@ import (
 var showCmd = &cobra.Command{
 	Use:   "show [command]",
 	Short: "show manuals of the command",
-	Long: `show your manual of the command.
-	If you want to show your manual of "show" command, use ` + "`yman show show`" + ` instead.`,
+	Long: `Show your manual of the command.
+If you want to show your manual of "show" command, use ` + "`yman show show`" + ` instead.`,
 
 	Args: cobra.MaximumNArgs(1),
 	Run: func(cmd *cobra.Command, args []string) {
@@ -37,6 +39,10 @@ var showCmd = &cobra.Command{
 			Author:  author,
 			Tags:    tags,
 		}
+
+		if query.IsEmpty() {
+			cmd.Help()
+			return
 		}
 
 		// search manuals

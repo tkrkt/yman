@@ -9,13 +9,9 @@ import (
 )
 
 func ShowManual(manual *model.Manual) {
-	bold := color.New().Add(color.Bold).SprintFunc()
-	fmt.Printf("%s\n", bold(manual.FullCommand))
-	fmt.Println("author:", manual.Author)
-	if len(manual.Tags) > 0 {
-		fmt.Println("tags:", manual.Tags)
-	}
-	fmt.Println("--")
+	bold := color.New(color.Bold).SprintFunc()
+
+	fmt.Printf("%s (author:%s, tags:%s)\n", bold(manual.Full), manual.Author, manual.Tags)
 	fmt.Println(manual.Message)
 }
 

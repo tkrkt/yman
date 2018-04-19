@@ -12,9 +12,9 @@ import (
 func Editor() (string, error) {
 	// create tmp file
 	tmpDir := os.TempDir()
-	tmpFile, tmpFileErr := ioutil.TempFile(tmpDir, "yman")
-	if tmpFileErr != nil {
-		return "", tmpFileErr
+	tmpFile, err := ioutil.TempFile(tmpDir, "yman")
+	if err != nil {
+		return "", err
 	}
 	defer os.Remove(tmpFile.Name())
 
