@@ -18,7 +18,7 @@ var showCmd = &cobra.Command{
 	Run: func(cmd *cobra.Command, args []string) {
 		// check account (login not required)
 		account, err := api.CurrentAccount()
-		if err == nil {
+		if err != nil {
 			ui.Warn("You are not logged in. Search as a guest user.")
 		}
 
