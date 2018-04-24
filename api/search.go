@@ -68,7 +68,7 @@ func match(m *model.Manual, q *model.Query) bool {
 		return true
 	}
 
-	// check command
+	// command
 	if q.Command != "" {
 		command := strings.Split(q.Command, "/")
 		if len(command) > 1 {
@@ -80,14 +80,14 @@ func match(m *model.Manual, q *model.Query) bool {
 		}
 	}
 
-	// check author
+	// author
 	if q.Author != "" {
 		if m.Author != q.Author {
 			return false
 		}
 	}
 
-	// finally check tags
+	// tags
 	if len(q.Tags) == 0 {
 		return true
 	}

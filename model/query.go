@@ -6,7 +6,9 @@ type Query struct {
 	Tags    []string
 }
 
-// IsEmpty returns true if any condition is specified
+// IsEmpty returns true if no conditions is specified.
+// No conditions mean "all items" on list command
+// and mean "invalid query (error)" on show and search command
 func (q *Query) IsEmpty() bool {
 	return q.Command == "" &&
 		q.Author == "" &&
