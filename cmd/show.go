@@ -52,7 +52,11 @@ If you want to show your manual of "show" command, use ` + "`yman show show`" + 
 			return
 		}
 
-		ui.ShowManuals(manuals)
+		if i, err := cmd.Flags().GetBool("raw"); i && err == nil {
+			ui.ShowManuals(manuals, true)
+		} else {
+			ui.ShowManuals(manuals, false)
+		}
 	},
 }
 
@@ -61,4 +65,5 @@ func init() {
 
 	showCmd.Flags().StringP("user", "u", "", "filter by username")
 	showCmd.Flags().StringP("tag", "t", "", "filter by tag")
+	showCmd.Flags().BoolP("raw", "r", false, "show manuals as raw text (without styling)")
 }

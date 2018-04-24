@@ -48,7 +48,7 @@ func ShowInteractiveList(manuals []*model.Manual) {
 
 	for i, r := range rows {
 		if row == r {
-			ShowManual(manuals[i])
+			ShowManual(manuals[i], true)
 			break
 		}
 	}
