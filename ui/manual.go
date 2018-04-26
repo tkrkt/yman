@@ -5,16 +5,32 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/fatih/color"
+	"github.com/mgutz/ansi"
 	"github.com/tkrkt/mdterm"
 	"github.com/tkrkt/yman/model"
 )
 
 func ShowManual(manual *model.Manual, raw bool) {
-	bold := color.New(color.Bold).SprintFunc()
 	// print header
+	if len(manual.Tags) > 0 {
+		fmt.Printf("%s%s%s [author:%s, tags:%s]%s\n",
+			ansi.ColorCode("red+bu")+ansi.DefaultFG,
+			manual.Full,
+			ansi.Reset+ansi.ColorCode("red+u")+ansi.DefaultFG,
+			manual.Author,
+			strings.Join(manual.Tags, ","),
+			ansi.Reset,
+		)
+	} else {
+		fmt.Printf("%s%s%s [author:%s]%s\n",
+			ansi.ColorCode("red+bu")+ansi.DefaultFG,
+			manual.Full,
+			ansi.Reset+ansi.ColorCode("red+u")+ansi.DefaultFG,
+			manual.Author,
+			ansi.Reset,
+		)
+	}
 
-	fmt.Printf("%s (author:%s, tags:%s)\n", bold(manual.Full), manual.Author, manual.Tags)
 	// print message
 	if raw {
 		fmt.Println(manual.Message)

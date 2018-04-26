@@ -3,8 +3,9 @@ package ui
 import (
 	"fmt"
 
+	"github.com/mgutz/ansi"
+
 	"github.com/AlecAivazis/survey"
-	"github.com/fatih/color"
 )
 
 func Text(text interface{}) {
@@ -12,11 +13,11 @@ func Text(text interface{}) {
 }
 
 func Warn(text interface{}) {
-	color.Yellow("WARN: " + fmt.Sprint(text))
+	fmt.Println(ansi.Yellow + "WARN: " + fmt.Sprint(text) + ansi.Reset)
 }
 
 func Error(text interface{}) {
-	fmt.Println("ERROR:", text)
+	fmt.Println(ansi.Red + "ERROR: " + fmt.Sprint(text) + ansi.Reset)
 }
 
 func Confirm(msg string) (answer bool, err error) {

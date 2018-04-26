@@ -14,12 +14,6 @@
   version = "v0.3.0"
 
 [[projects]]
-  name = "github.com/fatih/color"
-  packages = ["."]
-  revision = "507f6050b8568533fb3f5504de8e5205fa62a114"
-  version = "v1.6.0"
-
-[[projects]]
   name = "github.com/fsnotify/fsnotify"
   packages = ["."]
   revision = "c2828203cd70a50dcccfb2761f8b1f8ceef9a8e9"
@@ -196,6 +190,6 @@
 [solve-meta]
   analyzer-name = "dep"
   analyzer-version = 1
-  inputs-digest = "a63370741894bc7f3329bd1698a769609d15f4df9c6582596371681c5055d58c"
+  inputs-digest = "881734cea0407de6979b0618fb92a95fb30efc2e7233de0f3375131a796c3496"
   solver-name = "gps-cdcl"
   solver-version = 1

@@ -19,9 +19,9 @@
   version = "0.3.0"
 
 [[constraint]]
-  name = "github.com/fatih/color"
-  version = "1.6.0"
-
-[[constraint]]
   name = "github.com/tkrkt/mdterm"
   version = "1.0.1"
+
+[[constraint]]
+  branch = "master"
+  name = "github.com/mgutz/ansi"
