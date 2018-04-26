@@ -17,10 +17,11 @@ var listCmd = &cobra.Command{
 
 	Args: cobra.MaximumNArgs(1),
 	Run: func(cmd *cobra.Command, args []string) {
-		// check account (login not required)
+		// check login status (login required)
 		account, err := api.CurrentAccount()
 		if err != nil {
-			ui.Warn("You are not logged in. Search as a guest user.")
+			ui.Error("You are not logged in. Please login with `yman login` in advance.")
+			return
 		}
 
 		// create query
