@@ -56,6 +56,8 @@ func loadFromLocalFile(account *model.Account, query *model.Query) ([]*model.Man
 		}
 
 		if match(manual, query) {
+			id := strings.Replace(file.Name(), ".txt", "", 1)
+			manual.ID = &id
 			manuals = append(manuals, manual)
 		}
 	}

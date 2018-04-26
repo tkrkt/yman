@@ -54,6 +54,45 @@ func ShowInteractiveList(manuals []*model.Manual) {
 	}
 }
 
+func ShowListForDeletion(manuals []*model.Manual) *model.Manual {
+	num := len(manuals)
+	if num > 1 {
+		fmt.Println("Found " + strconv.Itoa(num) + " manuals")
+	} else if num == 0 {
+		fmt.Println("No manuals found")
+		return nil
+	}
+
+	var manual *model.Manual
+
+	if num > 1 {
+		_, rows := createList(manuals)
+		prompt := &survey.Select{
+			Message: "Select the manual to delete",
+			Options: rows,
+		}
+		var row string
+		if err := survey.AskOne(prompt, &row, nil); err != nil {
+			Text(err)
+			return nil
+		}
+
+		for i, r := range rows {
+			if row == r {
+				manual = manuals[i]
+				break
+			}
+		}
+	} else { // num === 1
+		manual = manuals[0]
+	}
+
+	if manual == nil {
+		return nil
+	}
+	return manual
+}
+
 func createList(manuals []*model.Manual) (string, []string) {
 	buffer := &bytes.Buffer{}
 	w := new(tabwriter.Writer)
