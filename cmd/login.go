@@ -40,7 +40,7 @@ var loginCmd = &cobra.Command{
 		if err != nil {
 			return
 		}
-		account, err = api.Login(username, password)
+		account, err = api.Login(email, password)
 		if err != nil {
 			ui.Error(err)
 			return

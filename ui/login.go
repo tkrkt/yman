@@ -4,11 +4,11 @@ import (
 	"github.com/AlecAivazis/survey"
 )
 
-func Login() (username string, password string, err error) {
+func Login() (email string, password string, err error) {
 	qs := []*survey.Question{
 		{
-			Name:     "username",
-			Prompt:   &survey.Input{Message: "username"},
+			Name:     "email",
+			Prompt:   &survey.Input{Message: "email"},
 			Validate: survey.Required,
 		},
 		{
@@ -19,7 +19,7 @@ func Login() (username string, password string, err error) {
 	}
 
 	ans := struct {
-		Username string
+		Email    string
 		Password string
 	}{}
 
@@ -28,5 +28,5 @@ func Login() (username string, password string, err error) {
 		return "", "", err
 	}
 
-	return ans.Username, ans.Password, nil
+	return ans.Email, ans.Password, nil
 }

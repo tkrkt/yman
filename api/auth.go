@@ -7,6 +7,7 @@ import (
 	"io/ioutil"
 	"os"
 	"path/filepath"
+	"strings"
 
 	"github.com/mitchellh/go-homedir"
 	"github.com/pelletier/go-toml"
@@ -14,9 +15,9 @@ import (
 )
 
 // Login to yman and create .ymanrc
-func Login(username string, password string) (*model.Account, error) {
-	// access to server
-
+func Login(email string, password string) (*model.Account, error) {
+	// create an account temporarily
+	username := strings.Split(email, "@")[0]
 	account := &model.Account{
 		Username: username,
 		Token:    "token",
