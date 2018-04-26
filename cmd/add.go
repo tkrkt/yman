@@ -1,6 +1,7 @@
 package cmd
 
 import (
+	"regexp"
 	"strings"
 
 	"github.com/spf13/cobra"
@@ -43,6 +44,11 @@ If you want to show your manual of "add" command, use ` + "`yman show add`" + ` 
 			return
 		}
 
+		// extract title as first line of message with removing # (headings)
+		reg, _ := regexp.Compile("^#*\\s*")
+		title := strings.SplitN(message, "\n", 2)[0]
+		title = reg.ReplaceAllString(title, "")
+
 		var tags []string
 		if tagString := cmd.Flag("tag").Value.String(); tagString != "" {
 			tags = strings.Split(cmd.Flag("tag").Value.String(), ",")
@@ -52,7 +58,7 @@ If you want to show your manual of "add" command, use ` + "`yman show add`" + ` 
 			Command: strings.SplitN(args[0], "/", 2)[0],
 			Full:    args[0],
 			Author:  account.Username,
-			Title:   strings.SplitN(message, "\n", 2)[0],
+			Title:   title,
 			Message: message,
 			Tags:    tags,
 		}
