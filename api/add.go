@@ -15,7 +15,7 @@ import (
 	"github.com/tkrkt/yman/model"
 )
 
-// Add a manual by post to server or save to file
+// Add a manual by posting to server or saving to file
 func Add(account *model.Account, manual *model.Manual) error {
 	if account == nil {
 		return errors.New("not loggined")
@@ -50,10 +50,10 @@ func saveToLocalFile(account *model.Account, manual *model.Manual) error {
 		}
 	}
 
-	file, ioErr := os.Create(path)
+	file, err := os.Create(path)
 	defer file.Close()
-	if ioErr != nil {
-		return ioErr
+	if err != nil {
+		return err
 	}
 
 	// write content as toml format
@@ -67,6 +67,7 @@ func saveToLocalFile(account *model.Account, manual *model.Manual) error {
 		return err
 	}
 
+	// output for debug
 	fmt.Println("Your manual is saved to file: " + path)
 
 	return nil

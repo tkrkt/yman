@@ -16,7 +16,7 @@ var loginCmd = &cobra.Command{
 		// check if i am already logined
 		account, err := api.CurrentAccount()
 		if err == nil {
-			ui.Text("Already logined as " + account.Username)
+			ui.Warn("Already logined as " + account.Username)
 
 			// confirm to logout
 			ans, err := ui.Confirm("Login as a different user?")
@@ -35,13 +35,11 @@ var loginCmd = &cobra.Command{
 			}
 		}
 
-		// get username and password
-		username, password, err := ui.Login()
+		// login
+		email, password, err := ui.Login()
 		if err != nil {
 			return
 		}
-
-		// login
 		account, err = api.Login(username, password)
 		if err != nil {
 			ui.Error(err)

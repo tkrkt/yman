@@ -3,6 +3,7 @@ package ui
 import (
 	"fmt"
 	"strconv"
+	"strings"
 
 	"github.com/fatih/color"
 	"github.com/tkrkt/mdterm"
@@ -11,14 +12,15 @@ import (
 
 func ShowManual(manual *model.Manual, raw bool) {
 	bold := color.New(color.Bold).SprintFunc()
+	// print header
 
 	fmt.Printf("%s (author:%s, tags:%s)\n", bold(manual.Full), manual.Author, manual.Tags)
+	// print message
 	if raw {
 		fmt.Println(manual.Message)
 	} else {
-		fmt.Println(string(mdterm.Run([]byte(manual.Message),
-			mdterm.WithHeadingStyle(true, 2),
-		)))
+		md := string(mdterm.Run([]byte(manual.Message)))
+		fmt.Println(strings.Trim(md, " \n\t"))
 	}
 }
 

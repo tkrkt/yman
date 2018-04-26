@@ -12,8 +12,8 @@ import (
 // addCmd represents the add command
 var addCmd = &cobra.Command{
 	Use:   "add [command]",
-	Short: "Add your manual of this command",
-	Long: `Add your manual for this command.
+	Short: "Add your manual of a command",
+	Long: `Add your manual of a command.
 If you want to show your manual of "add" command, use ` + "`yman show add`" + ` instead.`,
 
 	Args: cobra.ExactArgs(1),

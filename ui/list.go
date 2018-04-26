@@ -35,20 +35,20 @@ func ShowInteractiveList(manuals []*model.Manual) {
 		return
 	}
 
-	head, rows := createList(manuals)
-	row := ""
+	_, rows := createList(manuals)
 	prompt := &survey.Select{
-		Message: head,
+		Message: "Select a manual to show",
 		Options: rows,
 	}
+	var row string
 	if err := survey.AskOne(prompt, &row, nil); err != nil {
-		Error(err)
+		Text(err)
 		return
 	}
 
 	for i, r := range rows {
 		if row == r {
-			ShowManual(manuals[i], true)
+			ShowManual(manuals[i], false)
 			break
 		}
 	}
