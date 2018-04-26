@@ -2,6 +2,7 @@ package cmd
 
 import (
 	"os"
+	"strings"
 
 	"github.com/spf13/cobra"
 )
@@ -16,6 +17,12 @@ examples and usage of using your application.`,
 
 // Execute adds all child commands to the root command and sets flags appropriately.
 func Execute() {
+	// insert command "show" in args if no subcommand is found
+	_, _, err := rootCmd.Find(os.Args[1:])
+	if err != nil && strings.HasPrefix(err.Error(), "unknown command") {
+		os.Args = append(os.Args[:1], append([]string{"show"}, os.Args[1:]...)...)
+	}
+
 	if err := rootCmd.Execute(); err != nil {
 		os.Exit(1)
 	}
