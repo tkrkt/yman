@@ -4,6 +4,7 @@ import (
 	"github.com/AlecAivazis/survey"
 )
 
+// Login displays questions asking for username and password
 func Login() (email string, password string, err error) {
 	qs := []*survey.Question{
 		{

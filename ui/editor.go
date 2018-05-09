@@ -4,8 +4,6 @@ import (
 	"io/ioutil"
 	"os"
 	"os/exec"
-
-	"github.com/spf13/viper"
 )
 
 // Editor opens text editor to input multiline text
@@ -19,10 +17,7 @@ func Editor() (string, error) {
 	defer os.Remove(tmpFile.Name())
 
 	// get editor
-	editorType := viper.GetString("editor")
-	if editorType == "" {
-		editorType = "vi"
-	}
+	editorType := "vi"
 	editor, err := exec.LookPath(editorType)
 	if err != nil {
 		return "", err

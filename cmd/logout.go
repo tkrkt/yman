@@ -12,7 +12,7 @@ var logoutCmd = &cobra.Command{
 	Short: "Logout from yman",
 	Long:  `Logout from yman.`,
 	Run: func(cmd *cobra.Command, args []string) {
-		if _, err := api.CurrentAccount(); err != nil {
+		if !api.IsLogined() {
 			ui.Error("You have already logged out.")
 			return
 		}

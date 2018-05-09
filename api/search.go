@@ -14,14 +14,14 @@ import (
 )
 
 // Search manuals by fetching from server or search local files
-func Search(account *model.Account, query *model.Query) ([]*model.Manual, error) {
+func Search(query *model.Query) ([]*model.Manual, error) {
 	if query == nil {
 		return nil, errors.New("invalid query")
 	}
-	return loadFromLocalFile(account, query)
+	return loadFromLocalFile(query)
 }
 
-func loadFromLocalFile(account *model.Account, query *model.Query) ([]*model.Manual, error) {
+func loadFromLocalFile(query *model.Query) ([]*model.Manual, error) {
 	// create file
 	home, err := homedir.Dir()
 	if err != nil {

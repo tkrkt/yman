@@ -10,6 +10,8 @@ import (
 	"github.com/tkrkt/yman/model"
 )
 
+// ShowManual displays a manual as styled (if raw is false),
+// or as plain text (if raw is true)
 func ShowManual(manual *model.Manual, raw bool) {
 	// print header
 	if len(manual.Tags) > 0 {
@@ -40,6 +42,7 @@ func ShowManual(manual *model.Manual, raw bool) {
 	}
 }
 
+// ShowManuals displays manuals
 func ShowManuals(manuals []*model.Manual, raw bool) {
 	num := len(manuals)
 	if num > 1 {

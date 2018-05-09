@@ -12,15 +12,14 @@ import (
 // showCmd represents the show command
 var showCmd = &cobra.Command{
 	Use:   "show [command]",
-	Short: "show manuals of the command",
+	Short: "Show manuals of the command",
 	Long: `Show your manual of the command.
 If you want to show your manual of "show" command, use ` + "`yman show show`" + ` instead.`,
 
 	Args: cobra.MaximumNArgs(1),
 	Run: func(cmd *cobra.Command, args []string) {
-		// check account (login not required)
-		account, err := api.CurrentAccount()
-		if err != nil {
+		// check account (login NOT required)
+		if !api.IsLogined() {
 			ui.Warn("You are not logged in. Search as a guest user.")
 		}
 
@@ -46,7 +45,7 @@ If you want to show your manual of "show" command, use ` + "`yman show show`" + 
 		}
 
 		// search manuals
-		manuals, err := api.Search(account, query)
+		manuals, err := api.Search(query)
 		if err != nil {
 			ui.Error(err)
 			return

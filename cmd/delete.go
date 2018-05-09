@@ -17,8 +17,7 @@ var deleteCmd = &cobra.Command{
 If you want to show your manual of "delete" command, use ` + "`yman show delete`" + ` instead.`,
 	Run: func(cmd *cobra.Command, args []string) {
 		// check login status (login required)
-		account, err := api.CurrentAccount()
-		if err != nil {
+		if !api.IsLogined() {
 			ui.Error("You are not logged in. Please login with `yman login` in advance.")
 			return
 		}
@@ -40,7 +39,7 @@ If you want to show your manual of "delete" command, use ` + "`yman show delete`
 		}
 
 		// search manuals
-		manuals, err := api.Search(account, query)
+		manuals, err := api.Search(query)
 		if err != nil {
 			ui.Error(err)
 			return
@@ -50,10 +49,11 @@ If you want to show your manual of "delete" command, use ` + "`yman show delete`
 
 		if m != nil {
 			ui.ShowManual(m, false)
-			if m.Author == account.Username {
+			c := api.GetConfig()
+			if m.Author == c.Username {
 				// delete the manual you created
 				if ans, err := ui.Confirm("Delete this manual?"); ans && err == nil {
-					if apiErr := api.Delete(account, m); apiErr == nil {
+					if apiErr := api.Delete(m); apiErr == nil {
 						ui.Text("The manual has been deleted")
 					} else {
 						ui.Error(apiErr)
@@ -62,8 +62,8 @@ If you want to show your manual of "delete" command, use ` + "`yman show delete`
 			} else {
 				// unstock the manual created by others
 				if ans, err := ui.Confirm("Unstock this manual?"); ans && err == nil {
-					api.Unstock(account, m)
-					if apiErr := api.Unstock(account, m); apiErr == nil {
+					api.Unstock(m)
+					if apiErr := api.Unstock(m); apiErr == nil {
 						ui.Text("The manual is unstocked")
 					} else {
 						ui.Error(apiErr)

@@ -16,18 +16,18 @@ import (
 )
 
 // Add a manual by posting to server or saving to file
-func Add(account *model.Account, manual *model.Manual) error {
-	if account == nil {
+func Add(manual *model.Manual) error {
+	if !IsLogined() {
 		return errors.New("not loggined")
 	}
 	if manual == nil {
 		return errors.New("invalid manual")
 	}
-	return saveToLocalFile(account, manual)
+	return saveToLocalFile(manual)
 }
 
-func saveToLocalFile(account *model.Account, manual *model.Manual) error {
-	// create file
+func saveToLocalFile(manual *model.Manual) error {
+	// create dir
 	home, err := homedir.Dir()
 	if err != nil {
 		return err

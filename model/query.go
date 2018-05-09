@@ -1,5 +1,7 @@
 package model
 
+// Query is used for searching.
+// Empty string or empty array does not restrict the condition.
 type Query struct {
 	Command string
 	Author  string

@@ -18,8 +18,7 @@ var listCmd = &cobra.Command{
 	Args: cobra.MaximumNArgs(1),
 	Run: func(cmd *cobra.Command, args []string) {
 		// check login status (login required)
-		account, err := api.CurrentAccount()
-		if err != nil {
+		if !api.IsLogined() {
 			ui.Error("You are not logged in. Please login with `yman login` in advance.")
 			return
 		}
@@ -41,7 +40,7 @@ var listCmd = &cobra.Command{
 		}
 
 		// search manuals
-		manuals, err := api.Search(account, query)
+		manuals, err := api.Search(query)
 		if err != nil {
 			ui.Error(err)
 			return

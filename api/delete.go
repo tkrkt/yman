@@ -11,18 +11,18 @@ import (
 )
 
 // Delete a manual by posting to server or deleting a file
-func Delete(account *model.Account, manual *model.Manual) error {
-	if account == nil {
+func Delete(manual *model.Manual) error {
+	if !IsLogined() {
 		return errors.New("not loggined")
 	}
 	if manual == nil || manual.ID == nil {
 		return errors.New("invalid manual")
 	}
 
-	return deleteLocalFile(account, manual)
+	return deleteLocalFile(manual)
 }
 
-func deleteLocalFile(account *model.Account, manual *model.Manual) error {
+func deleteLocalFile(manual *model.Manual) error {
 	home, err := homedir.Dir()
 	if err != nil {
 		return err

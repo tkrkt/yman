@@ -11,6 +11,7 @@ import (
 	"github.com/tkrkt/yman/model"
 )
 
+// ShowList shows list of manuals
 func ShowList(manuals []*model.Manual) {
 	num := len(manuals)
 	if num > 1 {
@@ -26,6 +27,8 @@ func ShowList(manuals []*model.Manual) {
 	fmt.Println(strings.Join(rows, "\n"))
 }
 
+// ShowInteractiveList displays list of manuals
+// and displayss cursor for selecting a manual, and displays it if selected.
 func ShowInteractiveList(manuals []*model.Manual) {
 	num := len(manuals)
 	if num > 1 {
@@ -54,6 +57,7 @@ func ShowInteractiveList(manuals []*model.Manual) {
 	}
 }
 
+// ShowListForDeletion displays list of manuals and displays cursor for deletion.
 func ShowListForDeletion(manuals []*model.Manual) *model.Manual {
 	num := len(manuals)
 	if num > 1 {
