@@ -19,12 +19,7 @@ If you want to show your manual of "add" command, use ` + "`yman show add`" + ` 
 
 	Args: cobra.ExactArgs(1),
 	Run: func(cmd *cobra.Command, args []string) {
-		// check login status (login required)
-		if !api.IsLogined() {
-			ui.Error("You are not logged in. Please login with `yman login` in advance.")
-			return
-		}
-
+		// get message from -m arg or editor
 		message := cmd.Flag("message").Value.String()
 		if message == "" {
 			msg, err := ui.Editor()
@@ -53,11 +48,9 @@ If you want to show your manual of "add" command, use ` + "`yman show add`" + ` 
 			tags = strings.Split(cmd.Flag("tag").Value.String(), ",")
 		}
 
-		config := api.GetConfig()
 		manual := &model.Manual{
 			Command: strings.SplitN(args[0], "/", 2)[0],
 			Full:    args[0],
-			Author:  config.Username,
 			Title:   title,
 			Message: message,
 			Tags:    tags,

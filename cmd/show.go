@@ -18,24 +18,17 @@ If you want to show your manual of "show" command, use ` + "`yman show show`" + 
 
 	Args: cobra.MaximumNArgs(1),
 	Run: func(cmd *cobra.Command, args []string) {
-		// check account (login NOT required)
-		if !api.IsLogined() {
-			ui.Warn("You are not logged in. Search as a guest user.")
-		}
-
 		// create query
 		var c string
 		if len(args) != 0 {
 			c = args[0]
 		}
-		author := cmd.Flag("user").Value.String()
 		var tags []string
 		if tagString := cmd.Flag("tag").Value.String(); tagString != "" {
 			tags = strings.Split(cmd.Flag("tag").Value.String(), ",")
 		}
 		query := &model.Query{
 			Command: c,
-			Author:  author,
 			Tags:    tags,
 		}
 
@@ -62,7 +55,6 @@ If you want to show your manual of "show" command, use ` + "`yman show show`" + 
 func init() {
 	rootCmd.AddCommand(showCmd)
 
-	showCmd.Flags().StringP("user", "u", "", "filter by username")
 	showCmd.Flags().StringP("tag", "t", "", "filter by tag")
 	showCmd.Flags().BoolP("raw", "r", false, "show manuals as raw text (without styling)")
 }

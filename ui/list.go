@@ -8,6 +8,7 @@ import (
 	"text/tabwriter"
 
 	"github.com/AlecAivazis/survey"
+	"github.com/mgutz/ansi"
 	"github.com/tkrkt/yman/model"
 )
 
@@ -17,13 +18,13 @@ func ShowList(manuals []*model.Manual) {
 	if num > 1 {
 		fmt.Println("Found " + strconv.Itoa(num) + " manuals")
 	} else if num == 0 {
-		fmt.Println("No manuals found")
+		fmt.Println(ansi.Red + "No manuals found" + ansi.Reset)
 		return
 	}
 
 	// show manuals
 	head, rows := createList(manuals)
-	fmt.Println(head)
+	fmt.Println(ansi.ColorCode("cyan") + head + ansi.Reset)
 	fmt.Println(strings.Join(rows, "\n"))
 }
 
@@ -34,7 +35,7 @@ func ShowInteractiveList(manuals []*model.Manual) {
 	if num > 1 {
 		fmt.Println("Found " + strconv.Itoa(num) + " manuals")
 	} else if num == 0 {
-		fmt.Println("No manuals found")
+		fmt.Println(ansi.Red + "No manuals found" + ansi.Reset)
 		return
 	}
 
@@ -63,7 +64,7 @@ func ShowListForDeletion(manuals []*model.Manual) *model.Manual {
 	if num > 1 {
 		fmt.Println("Found " + strconv.Itoa(num) + " manuals")
 	} else if num == 0 {
-		fmt.Println("No manuals found")
+		fmt.Println(ansi.Red + "No manuals found" + ansi.Reset)
 		return nil
 	}
 
@@ -102,9 +103,9 @@ func createList(manuals []*model.Manual) (string, []string) {
 	w := new(tabwriter.Writer)
 
 	w.Init(buffer, 0, 8, 1, ' ', 0)
-	fmt.Fprintln(w, "Command\tAuthor\tTitle")
+	fmt.Fprintln(w, "Command\tTitle")
 	for _, m := range manuals {
-		fmt.Fprintf(w, "%s\t%s\t%s\n", m.Full, m.Author, m.Title)
+		fmt.Fprintf(w, "%s\t%s\n", m.Full, m.Title)
 	}
 	w.Flush()
 

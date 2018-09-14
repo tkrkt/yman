@@ -16,25 +16,17 @@ var deleteCmd = &cobra.Command{
 	Long: `Delete a manual of a command.
 If you want to show your manual of "delete" command, use ` + "`yman show delete`" + ` instead.`,
 	Run: func(cmd *cobra.Command, args []string) {
-		// check login status (login required)
-		if !api.IsLogined() {
-			ui.Error("You are not logged in. Please login with `yman login` in advance.")
-			return
-		}
-
 		// create query
 		var c string
 		if len(args) != 0 {
 			c = args[0]
 		}
-		author := cmd.Flag("user").Value.String()
 		var tags []string
 		if tagString := cmd.Flag("tag").Value.String(); tagString != "" {
 			tags = strings.Split(cmd.Flag("tag").Value.String(), ",")
 		}
 		query := &model.Query{
 			Command: c,
-			Author:  author,
 			Tags:    tags,
 		}
 
@@ -49,25 +41,12 @@ If you want to show your manual of "delete" command, use ` + "`yman show delete`
 
 		if m != nil {
 			ui.ShowManual(m, false)
-			c := api.GetConfig()
-			if m.Author == c.Username {
-				// delete the manual you created
-				if ans, err := ui.Confirm("Delete this manual?"); ans && err == nil {
-					if apiErr := api.Delete(m); apiErr == nil {
-						ui.Text("The manual has been deleted")
-					} else {
-						ui.Error(apiErr)
-					}
-				}
-			} else {
-				// unstock the manual created by others
-				if ans, err := ui.Confirm("Unstock this manual?"); ans && err == nil {
-					api.Unstock(m)
-					if apiErr := api.Unstock(m); apiErr == nil {
-						ui.Text("The manual is unstocked")
-					} else {
-						ui.Error(apiErr)
-					}
+			// delete the manual
+			if ans, err := ui.Confirm("Delete this manual?"); ans && err == nil {
+				if apiErr := api.Delete(m); apiErr == nil {
+					ui.Text("The manual has been deleted")
+				} else {
+					ui.Error(apiErr)
 				}
 			}
 		}
@@ -77,6 +56,5 @@ If you want to show your manual of "delete" command, use ` + "`yman show delete`
 func init() {
 	rootCmd.AddCommand(deleteCmd)
 
-	deleteCmd.Flags().StringP("user", "u", "", "filter by username")
-	deleteCmd.Flags().StringP("tag", "t", "", "filter by tag")
+	deleteCmd.Flags().StringP("tag", "t", "", "select by tag")
 }

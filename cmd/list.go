@@ -17,25 +17,17 @@ var listCmd = &cobra.Command{
 
 	Args: cobra.MaximumNArgs(1),
 	Run: func(cmd *cobra.Command, args []string) {
-		// check login status (login required)
-		if !api.IsLogined() {
-			ui.Error("You are not logged in. Please login with `yman login` in advance.")
-			return
-		}
-
 		// create query
 		var c string
 		if len(args) != 0 {
 			c = args[0]
 		}
-		author := cmd.Flag("user").Value.String()
 		var tags []string
 		if tagString := cmd.Flag("tag").Value.String(); tagString != "" {
 			tags = strings.Split(cmd.Flag("tag").Value.String(), ",")
 		}
 		query := &model.Query{
 			Command: c,
-			Author:  author,
 			Tags:    tags,
 		}
 

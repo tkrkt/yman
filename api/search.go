@@ -82,13 +82,6 @@ func match(m *model.Manual, q *model.Query) bool {
 		}
 	}
 
-	// author
-	if q.Author != "" {
-		if m.Author != q.Author {
-			return false
-		}
-	}
-
 	// tags
 	if len(q.Tags) == 0 {
 		return true

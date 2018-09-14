@@ -14,24 +14,13 @@ import (
 // or as plain text (if raw is true)
 func ShowManual(manual *model.Manual, raw bool) {
 	// print header
-	if len(manual.Tags) > 0 {
-		fmt.Printf("%s%s%s [author:%s, tags:%s]%s\n",
-			ansi.ColorCode("red+bu")+ansi.DefaultFG,
-			manual.Full,
-			ansi.Reset+ansi.ColorCode("red+u")+ansi.DefaultFG,
-			manual.Author,
-			strings.Join(manual.Tags, ","),
-			ansi.Reset,
-		)
-	} else {
-		fmt.Printf("%s%s%s [author:%s]%s\n",
-			ansi.ColorCode("red+bu")+ansi.DefaultFG,
-			manual.Full,
-			ansi.Reset+ansi.ColorCode("red+u")+ansi.DefaultFG,
-			manual.Author,
-			ansi.Reset,
-		)
-	}
+	fmt.Printf("%s%s%s %s%s\n",
+		ansi.ColorCode("red+bu")+ansi.DefaultFG,
+		manual.Full,
+		ansi.Reset+ansi.ColorCode("red+u")+ansi.DefaultFG,
+		strings.Join(manual.Tags, ","),
+		ansi.Reset,
+	)
 
 	// print message
 	if raw {

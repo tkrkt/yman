@@ -17,9 +17,6 @@ import (
 
 // Add a manual by posting to server or saving to file
 func Add(manual *model.Manual) error {
-	if !IsLogined() {
-		return errors.New("not loggined")
-	}
 	if manual == nil {
 		return errors.New("invalid manual")
 	}
