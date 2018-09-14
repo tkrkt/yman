@@ -48,7 +48,6 @@ var listCmd = &cobra.Command{
 func init() {
 	rootCmd.AddCommand(listCmd)
 
-	listCmd.Flags().StringP("user", "u", "", "filter by username")
 	listCmd.Flags().StringP("tag", "t", "", "filter by tag")
 	listCmd.Flags().BoolP("interactive", "i", false, "enable to select a manual by cursor")
 }

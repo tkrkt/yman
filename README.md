@@ -5,7 +5,7 @@ Make your manual manually.
 ## how to use
 
 ```
-$ go get github/tkrkt/yman
+$ go get github.com/tkrkt/yman
 $ yman --help
 ```
 
@@ -27,4 +27,10 @@ or
 
 ```
 $ yman show [command]
+```
+
+### list
+
+```
+$ yman list [-t tag] [command] [--interactive]
 ```
