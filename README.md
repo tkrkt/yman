@@ -1,16 +1,30 @@
 # yourman
 
-run binary
+Make your manual manually.
+
+## how to use
 
 ```
 $ go get github/tkrkt/yman
 $ yman --help
 ```
 
-run source code
+### add
 
 ```
-$ cd $GOPATH/src/github.com/tkrkt/yman
-$ dep ensure
-$ go run main.go yman --help
+$ yman add [-t tag] [command]
+```
+
+Manuals is saved in `~/.yman`
+
+### show
+
+```
+$ yman [command]
+```
+
+or
+
+```
+$ yman show [command]
 ```
